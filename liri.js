@@ -24,7 +24,7 @@ function activity (command) {
       break;
 
     case "do-what-it-says":
-      loadFile(;)
+      loadFile();
       break;
   };
 }
