@@ -64,30 +64,14 @@ function spotifySong(){
   });
 }
 
-function movie() {
-    if (inputTwo === "" || inputTwo === undefined) {
-        movies = "Mr. Nobody";
-    } else {
-        movies = inputTwo;
-    }
-    console.log(movies);
-    console.log(omdbKey);
-
-    var queryURL = "http://www.omdbapi.com/?t=" + movies + "&y=&plot=short&apikey=" + omdbKey;
-    request(queryURL, function (error, response, body) {
-        if (!error && response.statusCode === 200) {
-            var info = JSON.parse(body);
-            console.log("Title: " + info.Title);
-            console.log("Year: " + info.Year);
-            console.log("IMDB Rating: " + info.Ratings[0].Value);
-            console.log("Rotten Tomatoes: " + info.Ratings[1].Value);
-            console.log("Country: " + info.Country);
-            console.log("Language: " + info.Language)
-            console.log("Plot: " + info.Plot);
-            console.log("Actors: " + info.Actors);
-        }
-    })
-
-
-
-};
+// PSEUDO CODE FOR IMDB FUNCTION ===============================================
+// Create: function movie() to run the IMDB movie search =======================
+// Create a varible with the OMDB URL and API Keys =============================
+// Create an Conditional statement =============================================
+// First If statement will search for Mr. Nobody if the input is undefined or null ==================
+// Second statement will search for the movie the user input ===================
+// We "request" the query URL and console. log our results:
+                // TITLE:
+                // YEAR:
+                // RATING:
+                // ETC...
