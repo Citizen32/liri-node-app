@@ -1,6 +1,7 @@
 var keys = require("./keys.js");
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
+var request = require("request");
 var inputOne = process.argv[2];
 var inputTwo = process.argv[3];
 var twitterAPI = new Twitter(keys.twitterKeys);
@@ -16,7 +17,7 @@ function activity(command, userInput) {
     spotifySong(userInput);
     break;
     case "movie-this":
-    movie(userInput);
+    movie();
     break;
     case "do-what-it-says":
     loadFile();
@@ -62,3 +63,31 @@ function spotifySong(){
     }
   });
 }
+
+function movie() {
+    if (inputTwo === "" || inputTwo === undefined) {
+        movies = "Mr. Nobody";
+    } else {
+        movies = inputTwo;
+    }
+    console.log(movies);
+    console.log(omdbKey);
+
+    var queryURL = "http://www.omdbapi.com/?t=" + movies + "&y=&plot=short&apikey=" + omdbKey;
+    request(queryURL, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var info = JSON.parse(body);
+            console.log("Title: " + info.Title);
+            console.log("Year: " + info.Year);
+            console.log("IMDB Rating: " + info.Ratings[0].Value);
+            console.log("Rotten Tomatoes: " + info.Ratings[1].Value);
+            console.log("Country: " + info.Country);
+            console.log("Language: " + info.Language)
+            console.log("Plot: " + info.Plot);
+            console.log("Actors: " + info.Actors);
+        }
+    })
+
+
+
+};
