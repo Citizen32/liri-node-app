@@ -1,7 +1,9 @@
+// DEPENDENCIES ====================================
 var keys = require("./keys.js");
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
 var request = require("request");
+var fs = require("fs");
 var inputOne = process.argv[2];
 var inputTwo = process.argv[3];
 var twitterAPI = new Twitter(keys.twitterKeys);
@@ -9,7 +11,7 @@ var spotifyAPI = new Spotify(keys.spotifyKeys);
 
 
 function activity(command, userInput) {
-  switch (inputOne) {
+  switch (command) {
     case "my-tweets":
     twitter();
     break;
@@ -17,13 +19,14 @@ function activity(command, userInput) {
     spotifySong(userInput);
     break;
     case "movie-this":
-    movie();
+    movie(userInput);
     break;
     case "do-what-it-says":
     loadFile();
     break;
   }
 }
+
 activity(inputOne, inputTwo);
 
 // TWITTER FUNCTION ============================================================
@@ -64,6 +67,30 @@ function spotifySong(){
   });
 }
 
+function movie(movieName) {
+  if (movieName === undefined) {
+    movieName = "Mr Nobody";
+  }
+
+  var urlHit = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=full&tomatoes=true&apikey=40e9cece";
+
+  request(urlHit, function(error, response, body) {
+    if (!error && response.statusCode === 200) {
+     
+      var jsonData = JSON.parse(body);
+
+      console.log("Title: " + jsonData.Title);
+      console.log("Year: " + jsonData.Year);
+      console.log("Rated: " + jsonData.Rated);
+      console.log("IMDB Rating: " + jsonData.imdbRating);
+      console.log("Country: " + jsonData.Country);
+      console.log("Language: " + jsonData.Language);
+      console.log("Plot: " + jsonData.Plot);
+      console.log("Actors: " + jsonData.Actors);
+      console.log("Rotton Tomatoes URL: " + jsonData.tomatoURL);
+    }
+  });
+};
 // PSEUDO CODE FOR IMDB FUNCTION ===============================================
 // Create: function movie() to run the IMDB movie search =======================
 // Create a varible with the OMDB URL and API Keys =============================
